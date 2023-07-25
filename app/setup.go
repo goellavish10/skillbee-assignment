@@ -29,6 +29,8 @@ func SetupAndRunApp() error {
 	app.Use(logger.New(logger.Config{
 		Format: "[${ip}]:${port} ${status} - ${method} ${path} ${latency}\n",
 	}))
+	// Static Directory
+	app.Static("/resources", "../resources")
 
 	routes.SetupRoutes(app)
 
