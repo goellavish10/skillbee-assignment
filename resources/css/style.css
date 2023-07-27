@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lexend Deca', sans-serif;
+}
+
+html {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.activitycontainer {
+    margin-left: 10vh;
+    margin-top: 10px;
+    width: 25vw;
+    color: #2B2B35;
+}
+
+#key {
+    font-size: 2vh;
+    font-weight: 300;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+
+#quote {
+    font-size: 2vh;
+    font-weight: 600;
+    line-height: 100px;
+    letter-spacing: -0.02em;
+    text-align: left;
+}
+
+#heading {
+    font-size: 6vh;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-align: left;
+}
+
+.explorebtn {
+    background-color: rgb(239, 73, 73);
+    color: white;
+    border: none;
+    outline: none;
+    padding: 15px;
+    width: 14vw;
+    height: 7vh;
+    font-size: 1.5vh;
+    cursor: pointer;
+}
+
+#specialgoods {
+    margin-top: 10px;
+    font-size: 2vh;
+}
+
+.count {
+    display: flex;
+}
+
+.adventureproduct {
+    margin-right: 30px;
+}
+
+.count p {
+    font-size: 1.5vh;
+    margin-top: 4px;
+    margin-bottom: -10px;
+}
+
+.count h1 {
+    margin-bottom: -10px;
+    font-size: 6vh;
+}
+
+/* price */
+.price {
+    position: absolute;
+    top: 3vh;
+    right: 150px;
+    text-align: end;
+    font-size: 2vh;
+}
+
+#pricetag {
+    color: #9497A8;
+    font-size: 2vh;
+}
+
+/* footer */
+footer {
+    position: absolute;
+    bottom: 0;
+    margin: auto;
+    display: inline-flex;
+    width: 100vw;
+    align-items: end;
+}
+
+.panel {
+    display: flex;
+    background-color: #2B2B35;
+    color: white;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+    height: 20vh;
+}
+
+.accessibility,
+.type {
+    display: flex;
+    margin: auto;
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+.details {
+    margin-left: 3vh;
+}
+
+.details p {
+    font-size: 2vh;
+    margin-top: 1vh;
+    color: #B5B5C2;
+}
+
+.details h2 {
+    font-size: 3vh;
+}
+
+.images {
+    margin-top: -18%;
+    width: 40%;
+    display: flex;
+    max-height: 90vh;
+}
+
+@media screen and (max-width:1190px) {
+
+    .activitycontainer {
+        width: 360px;
+        margin-left: 0;
+    }
+    .explorebtn{
+        width: 30vw;
+    }
+    #heading {
+        margin-top: 50px;
+    }
+
+    footer {
+        flex-direction: column-reverse;
+        margin-top: 30px;
+        width: 100vw;
+        position: static;
+    }
+
+    .panel {
+        width: 100%;
+        height: 14vh;
+        justify-content: center;
+    }
+
+    .images {
+        margin: auto;
+        margin-top: 0;
+        width: 100%;
+        max-width: 700px;
+    }
+}
+@media screen and (min-width:1190px) and (min-height:850px) {
+    .activitycontainer{
+        width: 50vw;
+    }
+    
+}
+@media screen and (max-height:635px) {
+    
+    footer {
+        position: static;
+    }
+}

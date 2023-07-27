@@ -1,7 +1,9 @@
 package app
 
 import (
+	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/goellavish10/skillbee-assignment/config"
 	"github.com/goellavish10/skillbee-assignment/routes"
@@ -17,8 +19,18 @@ func SetupAndRunApp() error {
 	if err != nil {
 		return err
 	}
+	// Get the current working directory
+	currentDir, err := os.Getwd()
+	fmt.Println(currentDir)
+	if err != nil {
+		fmt.Println("Error getting current working directory:", err)
+		os.Exit(1)
+	}
+
+	// Construct the absolute path to the "views" directory
+	viewsDir := filepath.Join(currentDir, "views")
 	// html engine
-	engine := html.New("../views", ".html")
+	engine := html.New(viewsDir, ".html")
 	// create app
 	app := fiber.New(fiber.Config{
 		Views: engine,
@@ -30,7 +42,9 @@ func SetupAndRunApp() error {
 		Format: "[${ip}]:${port} ${status} - ${method} ${path} ${latency}\n",
 	}))
 	// Static Directory
-	app.Static("/resources", "../resources")
+	// Construct the absolute path to the "resources" directory
+	resourcesDir := filepath.Join(currentDir, "resources")
+	app.Static("/resources", resourcesDir)
 
 	routes.SetupRoutes(app)
 
