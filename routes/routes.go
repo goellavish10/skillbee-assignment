@@ -7,5 +7,5 @@ import (
 
 func SetupRoutes(app *fiber.App) {
 	app.Get("/", handlers.Home)
-	app.Get("/pages/:id", handlers.RenderDynamicPage)
+	app.Get("/pages", handlers.RenderDynamicPage)
 }

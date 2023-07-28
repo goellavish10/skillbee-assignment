@@ -6,11 +6,11 @@ import (
 	"path/filepath"
 
 	"github.com/goellavish10/skillbee-assignment/config"
+	"github.com/goellavish10/skillbee-assignment/lib"
 	"github.com/goellavish10/skillbee-assignment/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/template/html/v2"
 )
 
 func SetupAndRunApp() error {
@@ -27,14 +27,8 @@ func SetupAndRunApp() error {
 		os.Exit(1)
 	}
 
-	// Construct the absolute path to the "views" directory
-	viewsDir := filepath.Join(currentDir, "views")
-	// html engine
-	engine := html.New(viewsDir, ".html")
 	// create app
-	app := fiber.New(fiber.Config{
-		Views: engine,
-	})
+	app := fiber.New()
 
 	// attach middleware
 	app.Use(recover.New())
@@ -47,6 +41,8 @@ func SetupAndRunApp() error {
 	app.Static("/resources", resourcesDir)
 
 	routes.SetupRoutes(app)
+
+	lib.GenerateStaticPages()
 
 	// get the port and start
 	port := os.Getenv("PORT")
