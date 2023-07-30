@@ -90,6 +90,12 @@ Similarly you can make a POST Request on home route with **x-www-form-urlencoded
 
 ## API Reference
 
+#### Homepage
+
+```http
+  GET /
+```
+
 #### Get static pages
 
 ```http
