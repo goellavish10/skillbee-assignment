@@ -115,3 +115,11 @@ Similarly you can make a POST Request on home route with **x-www-form-urlencoded
 | Parameter       | Type  | Description                                      |
 | :-------------- | :---- | :----------------------------------------------- |
 | `numberOfPages` | `int` | **Required**. Number of static pages to generate |
+
+## Deployed Link
+
+You can use the below link to test the application's deployed version.
+
+**CAUTION:** This is a application deployed on free service of render.com Thus the first load can be slow as it sleeps after a while.
+
+Link: https://skillbee-6hcc.onrender.com
