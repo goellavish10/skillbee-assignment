@@ -26,30 +26,43 @@ func GenerateStaticPages() {
 	if err != nil {
 		panic("Invalid number of pages")
 	}
-	utils.CreateDir("dist")
+
 	var apiResponses []interfaces.ApiResponse
 	_, err = os.Stat("dist/data.json")
 	isJsonExists := false
 
 	if err == nil {
 		fmt.Println("JSON Exists! Skipping fetching data from API")
-		isJsonExists = true
+		file, _ := os.ReadFile("dist/data.json")
+		var jsonData []interfaces.ApiResponse
+		_ = json.Unmarshal([]byte(file), &jsonData)
+		fmt.Println(len(jsonData))
+		if len(jsonData) != pageCount {
+			err := os.RemoveAll("dist")
+			if err != nil {
+				log.Fatal("Error organising static site data!")
+			}
+		} else {
+			isJsonExists = true
+		}
 	}
-
-	for i := 0; i < pageCount; i++ {
+	utils.CreateDir("dist")
+	for i := 1; i <= pageCount; i++ {
 		if !isJsonExists {
 			if i == 0 {
 				fmt.Println("Initiating data fetch from API...")
 			}
 			url := "https://www.boredapi.com/api/activity"
 
-			// Making a GET Request only when JSON already doesn't exist
-			resp, err := http.Get(url)
-			if err != nil {
-				fmt.Println(err)
+			ch := make(chan *http.Response)
+			go httpRequest(url, ch)
+			resp := <-ch
+			if resp != nil {
+
+				defer resp.Body.Close()
+			} else {
 				log.Fatal("Error in fetching API Response")
 			}
-			defer resp.Body.Close()
 
 			if resp.StatusCode != http.StatusOK {
 				fmt.Println("Status Code: ", resp.StatusCode)
@@ -81,10 +94,6 @@ func GenerateStaticPages() {
 
 			if !keyExists {
 				apiResponses = append(apiResponses, responseData)
-			}
-
-			if i == pageCount-1 {
-				fmt.Println("Data fetch from API completed!")
 			}
 		}
 	}
@@ -130,7 +139,7 @@ func GenerateStaticPages() {
 			continue
 		}
 
-		fmt.Printf("Generating static html page %d", i+1)
+		fmt.Printf("Generating static html page %d\n", i+1)
 		var htmlString string
 
 		templateFile, err := os.ReadFile("views/template.html")
@@ -142,7 +151,8 @@ func GenerateStaticPages() {
 		htmlString = strings.Replace(htmlString, "{{TITLE}}", apiResponses[i].Activity, -1)
 		htmlString = strings.Replace(htmlString, "{{KEY}}", apiResponses[i].Key, -1)
 		htmlString = strings.Replace(htmlString, "{{PRICE}}", strconv.FormatFloat(apiResponses[i].Price, 'f', 2, 64), -1)
-		htmlString = strings.Replace(htmlString, "{{TYPE}}", apiResponses[i].Type, -1)
+		htmlString = strings.Replace(htmlString, "{{TYPE}}", strings.ToUpper(apiResponses[i].Type), -1)
+		htmlString = strings.Replace(htmlString, "{{ACTIVITY}}", strings.ToUpper(apiResponses[i].Activity), -1)
 
 		outputFile, err := os.Create(fmt.Sprintf("dist/page-%d.html", i+1))
 
@@ -160,4 +170,15 @@ func GenerateStaticPages() {
 
 	fmt.Println("🎊 Static site generated!")
 
+}
+
+func httpRequest(url string, ch chan<- *http.Response) {
+	response, err := http.Get(url)
+	if err != nil {
+		ch <- nil
+		return
+	}
+
+	// Sending response to channel thus making the HTTP Request Asynchronous
+	ch <- response
 }

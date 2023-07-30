@@ -38,11 +38,10 @@ func SetupAndRunApp() error {
 	// Static Directory
 	// Construct the absolute path to the "resources" directory
 	resourcesDir := filepath.Join(currentDir, "resources")
-	app.Static("/resources", resourcesDir)
-
-	routes.SetupRoutes(app)
+	app.Static("/static/resources", resourcesDir)
 
 	lib.GenerateStaticPages()
+	routes.SetupRoutes(app)
 
 	// get the port and start
 	port := os.Getenv("PORT")
