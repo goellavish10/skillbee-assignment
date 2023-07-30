@@ -9,3 +9,7 @@ type ApiResponse struct {
 	Key           string  `json:"key"`
 	Accessibility float64 `json:"accessibility"`
 }
+
+type FormData struct {
+	NumberOfPages int `json:"numberOfPages"`
+}

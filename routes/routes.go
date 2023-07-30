@@ -7,5 +7,6 @@ import (
 
 func SetupRoutes(app *fiber.App) {
 	app.Get("/", handlers.Home)
+	app.Post("/", handlers.RunRenderAgain)
 	app.Get("/static/:pageId", handlers.RenderDynamicPage)
 }
